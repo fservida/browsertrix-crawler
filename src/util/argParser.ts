@@ -354,6 +354,13 @@ class ArgParser {
         coerce,
       },
 
+      screenshotAfterBehaviours: {
+        describe:
+          "If set, the fullPage screenshot will be taken after running the behaviours. Requires --screenshotAfterBehaviours to be set",
+        type: "boolean",
+        default: false,
+      },
+
       screencastPort: {
         describe:
           "If set to a non-zero value, starts an HTTP server with screencast accessible on this port",

@@ -925,7 +925,7 @@ self.__bx_behaviors.selectMainBehavior();
       if (this.params.screenshot.includes("view")) {
         await screenshots.take("view", saveOutput ? data : null);
       }
-      if (this.params.screenshot.includes("fullPage")) {
+      if (this.params.screenshot.includes("fullPage") && !this.params.screenshotAfterBehaviours) {
         await screenshots.takeFullPage();
       }
       if (this.params.screenshot.includes("thumbnail")) {
@@ -981,6 +981,21 @@ self.__bx_behaviors.selectMainBehavior();
 
         if (textextract && this.params.text.includes("final-to-warc")) {
           await textextract.extractAndStoreText("textFinal", true, true);
+        }
+
+        if (this.params.screenshotAfterBehaviours && this.params.screenshot && this.screenshotWriter) {
+          await page.evaluate(() => {
+            window.scrollTo(0, 0);
+          });
+          const screenshots = new Screenshots({
+            browser: this.browser,
+            page,
+            url,
+            writer: this.screenshotWriter,
+          });
+          if (this.params.screenshot.includes("fullPage")) {
+            await screenshots.takeFullPage();
+          }
         }
       }
     }
